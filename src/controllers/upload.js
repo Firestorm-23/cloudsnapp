@@ -1,9 +1,32 @@
+const AWS = require('aws-sdk');
+const ID = ''; const SECRET = ''; // The name of the bucket that you have created const BUCKET_NAME = 'test-bucket';
 const fs = require('fs'); 
 const db = require("../models");
 const Image = db.images;
-const express = require("express");
-const router = express.Router();
 
+const uploadFilee = (fileName) => {
+  const s3 = new AWS.S3({
+    accessKeyId: ID,
+    secretAccessKey: SECRET
+  });
+  // Read content from the file
+  const fileContent = fs.readFileSync(fileName);
+
+  // Setting up S3 upload parameters
+  const params = {
+      Bucket: 'my-photogallery-bucket',
+      Key: fileName, // File name you want to save as in S3
+      Body: fileContent
+  };
+
+  // Uploading files to the bucket
+  s3.upload(params, function(err, data) {
+      if (err) {
+          throw err;
+      }
+      console.log(`File uploaded successfully. ${data.Location}`);
+  });
+};
 
 const uploadFiles = async (req, res) => {
   try {
@@ -24,9 +47,9 @@ const uploadFiles = async (req, res) => {
         __basedir + "/resources/static/assets/tmp/" + image.name,
         image.data
       );
-      res.setHeader('Content-type','text/html');
-      return res.send("<a href = 'http://localhost:8090'>View all photos</a>");
-      console.log("klsdfjsdklf");
+
+      uploadFilee(__basedir + "/resources/static/assets/uploads/" + req.file.filename)
+      return res.send(`File has been uploaded.`);
     });
   } catch (error) {
     console.log(error);
