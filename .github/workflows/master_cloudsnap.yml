@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'Cloudsnap'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E8BBDC4922AE40D785799523B896CA7D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E1ED2DE10F9C46FA82DDB9112E7AFCCF }}
           package: .
