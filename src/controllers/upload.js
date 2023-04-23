@@ -14,7 +14,7 @@ const uploadFilee = (fileName) => {
 
   // Setting up S3 upload parameters
   const params = {
-      Bucket: 'my-photogallery-bucket',
+      Bucket: 'cloudsnapp',
       Key: fileName, // File name you want to save as in S3
       Body: fileContent
   };
